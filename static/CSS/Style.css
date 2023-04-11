@@ -1,0 +1,34 @@
+#BG {
+    background-color: #2d3748;
+}
+.imp{
+    color:red;
+}
+/* #captcha {
+    height: 21;
+    width: 175;
+    font-size: 3px;
+    margin: auto;
+    display : block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+} */
+#Image2{
+    background-color: rgb(73, 73, 29);
+}
+#LoginBackground {
+    width: auto;
+    height: auto;
+    align-items: Auto;
+    background-color: #708090;
+    flex-direction: column;
+}
+.p{
+    font-size:15px;
+}
+.submit {
+    background-color:#b3b3b3;
+    color:white;
+}
