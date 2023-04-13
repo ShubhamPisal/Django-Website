@@ -25,10 +25,12 @@ def loginUser(request):
     if request.method=='POST':
         #collect user input after submitting form
         username = request.POST.get('username')
-        password = request.POST.get('password')
+        Epassword = request.POST.get('password')
         Captcha = request.POST.get('Captcha')
 
-        # print(username,password,Captcha) # used to verify the inpunt provided in the frount end is correct for backend
+        password = bytes([eval(i)-10 for i in Epassword.split(",")]).decode("utf8")
+
+        #print(username,password,Captcha) # used to verify the inpunt provided in the frount end is correct for backend
 
         if Captcha == random_string: #Compare generated string with user input
 
@@ -95,23 +97,21 @@ def TodoList (request):
 
 # Create the ToDoUpdate page view
 def Todoupdate(request,sno):
-    context = {
-        'tasks' : Todo.objects.filter(sno=sno).first()
-    }
+    
     if request.method=='POST':
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        content=Todo(title=title,desc=desc)
+        content=Todo(sno=sno ,title=title ,desc=desc)
         content.save()
         return redirect("/Todo")
         
-    todo = Todo.objects.filter(sno=sno).first()
-    print(sno)
-    print(todo)
-    print(context)
+    context = {
+        'todo' : Todo.objects.filter(sno=sno).first()
+    }
     return render(request,'update.html', context)
 
 # Create the ToDo Delete record view
-def Tododelete(sno):
-    todo = Todo.objects.filter(sno=sno).first()
+def Tododelete(request,sno):
+    content=Todo.objects.get(sno=sno)
+    content.delete()
     return redirect("/Todo")

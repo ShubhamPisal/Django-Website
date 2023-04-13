@@ -36,8 +36,8 @@
     <tr>
        <td> </td>
        <td> </td>
-       {% comment %} <td valign="center"><input type="submit" value="Refresh" ></td> {% endcomment %}
-
+       <td> </td>
+       <td> </td>
     </tr>
     <tr>
        <td> </td>
@@ -49,8 +49,8 @@
     <tr>
         <td></td>
         <td></td>
-        <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" disabled ="disabled"></td>
-        {% comment %} <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" ></td> {% endcomment %}
+        <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" onclick="ChangePassword(this)" ></td>
+        {% comment %} <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" disabled ="disabled"></td> {% endcomment %}
         <td> </td>
     </tr>
     <tr>
@@ -67,7 +67,7 @@
 
 <script>
 
-    function createCaptcha() {
+    function createCaptcha(obj) {
         // clear the contents of captcha div first 
         var canvas = document.getElementById("captcha");
         var ctx = canvas.getContext("2d");
@@ -75,7 +75,7 @@
         ctx.textAlign ="center";
         ctx.font = "bold 23px 微软雅黑"; //"Comic Sans MS", cursive, sans-serif,25px Georgia
         ctx.strokeText("{{cap}}", canvas.width/2, canvas.height/2);
-       }
+    }
     function EnableDisable(cpatchaTextBox) {
         //Reference the Button.
         var btnSubmit = document.getElementById("login");
@@ -87,13 +87,14 @@
         //Disable the Login when cpatchaTextBox is empty.
         btnSubmit.disabled = true;
         }
-        }
+    } 
     function randomColor () {
         let r = Math.floor(Math.random()*256);
         let g = Math.floor(Math.random()*256);
         let b = Math.floor(Math.random()*256);
         return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
+
 </script>
 
     <P align="right"><small ></small></P>
