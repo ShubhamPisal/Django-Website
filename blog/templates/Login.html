@@ -3,67 +3,64 @@
 {% block title %}Login{% endblock title %} 
 {% block content %}
 <div class="container-fluid px-5px mx-5px">
-<h1 align="center"><span style="color:goldenrod">Welcome Back</span></h1>
-<p class="p" align="right">New to Heroes? <a href="{% url 'blog-SignUpPage' %}">Sign Up Free</a></p>
-<div >
-<form class="form-signin" method="post" action="/Login">
-    {% csrf_token %}
-    <table align="center" id="LoginBackground" class ="rounded" class ="table table-bordered">
-    <tr>
-        <td align="center" colspan="4"><h1 class="h3 mb-3 font-weight-normal">Please sign in</h1></td>
-       
-    </tr>
-    <tr>
-        <td> </td>
-        <td>Username</td>
-        <td><input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required
-            autofocus maxlength="12"></td>
-        <td class="imp">*</td>
-    </tr>
-    <tr>
-        <td> </td>
-        <td>Password </td>
-        <td><input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required maxlength="15"></td>
-        <td class="imp">*</td>
-    </tr>
-    {% if enablecaptcha == 0 %}
-    <tr>
-       <td> </td>
-       <td rowspan="2">Captcha</td>
-       <td rowspan="2"><canvas id ="captcha" width="207" height="40" style="background-color: beige;"></canvas></td>
-       <td> </td>
-    </tr>
-    <tr>
-       <td> </td>
-       <td> </td>
-       <td> </td>
-       <td> </td>
-    </tr>
-    <tr>
-       <td> </td>
-       <td></td>
-       <td><input type="text" class="form-control" name="Captcha" placeholder="Enter Captcha" id="cpatchaTextBox" onkeyup="EnableDisable(this)" required></td>
-       <td class="imp">*</td>
-    </tr>
-    {% endif %}
-    <tr>
-        <td></td>
-        <td></td>
-        <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" onclick="ChangePassword(this)" ></td>
-        {% comment %} <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" disabled ="disabled"></td> {% endcomment %}
-        <td> </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="4"><a href="{% url 'blog-ForgetPasswordPage' %}">Forget Password?</a></td>
-    </tr>
-    <tr>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td class="p" align="right">0.0.0.1</td>
-    </tr>
-    </table>
-</form>
+    <h1 align="center"><span style="color:goldenrod">Welcome Back</span></h1>
+    <p class="p" align="right">New to Heroes? <a href="{% url 'blog-SignUpPage' %}">Sign Up Free</a></p>
+    <div>
+        <form class="form-signin" method="post" action="/Login">
+            {% csrf_token %}
+            <table align="center" id="LoginBackground" class ="rounded" class ="table table-bordered">
+                <tr>
+                    <td align="center" colspan="4"><h1 class="h3 mb-3 font-weight-normal">Please sign in</h1></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Username</td>
+                    <td><input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required autofocus maxlength="12"></td>
+                    <td class="imp">*</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Password </td>
+                    <td><input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required maxlength="15"></td>
+                    <td class="imp">*</td>
+                </tr>
+            {% if enablecaptcha == 0 %}
+                <tr>
+                    <td></td>
+                    <td rowspan="2">Captcha</td>
+                    <td rowspan="2"><canvas id ="captcha" width="207" height="40" style="background-color: beige;"></canvas></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" class="form-control" name="Captcha" placeholder="Enter Captcha" id="cpatchaTextBox" onkeyup="EnableDisable(this)" required></td>
+                    <td class="imp">*</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Login" id="login" class="submit" onclick="ChangePassword(this)" disabled ="disabled" ></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="4"><a href="{% url 'blog-ForgetPasswordPage' %}">Forget Password?</a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td> /td>
+                    <td class="p" align="right">0.0.0.1</td>
+                </tr>
+            </table>
+        </form>
 
 <script>
 
@@ -98,7 +95,7 @@
 </script>
 
     <P align="right"><small ></small></P>
-</div>
-<p><strong>Customer service Group<br>XXXX XXX XXXX</strong></p>
+    </div>
+    <p><strong>Customer service Group<br>XXXX XXX XXXX</strong></p>
 </div>
 {% endblock content %}

@@ -2,22 +2,74 @@
 {% block title %}Signup{% endblock title %} 
 {% load static %}
 {% block content %} 
-{% load crispy_forms_tags %} 
 
-<h1 align="center"><span style="color:goldenrod">Welcome to Heroes comic space</span></h1>
-<div class="container-section px-5px mx-5px">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Sign-Up</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div>
-            <button class="btn btn-outline-info" type="submit">Register</button>
-        </div>
-    </form>
-    <div class="border-top pt-3">
-        <small class="text-muted">If you already have an account? <a class="ml-2" href="/Login">Sign in</a> instead.</small>
-    </div>   
-</div>
+<h1 align="center"><span style="color:goldenrod">Welcome to Heroes comic space</span></h1>                  
+
+<form method="post">
+    {% csrf_token %}
+    <table align="center" id="LoginBackground" class ="rounded" class ="table table-bordered">
+    <tr>
+        <td align="center" colspan="4"><h1 class="h3 mb-3 font-weight-normal">Sign-Up</h1></td>
+    </tr>
+    <tr>
+        <td> shubham </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    
+    <tr>
+        <td> </td>
+        <td>Username</td>
+        <td><input type="text" name="username" maxlength="150" autofocus="" required="" id="id_username" class="form-control" required ></td>
+        <td class="imp">*</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td colspan="3"><small id="hint_id_username" >Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>Email </td>
+        <td><input type="email" name="email" required="" id="id_email" class="form-control" required></td>
+        <td class="imp">*</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>Password </td>
+        <td><input type="password" name="password1" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password1"></td>
+        <td class="imp">*</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td colspan="3"><small id="hint_id_password1" ><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></small></td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>Password confirmation</td>
+        <td><input type="password" name="password2" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password2"></td>
+        <td class="imp">*</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td colspan="3"><small id="hint_id_password2" >Enter the same password as before, for verification.</small></td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td> </td>
+        <td align="right"><input class="btn btn-primary btn-sm" type="submit" value="Register"></td>
+        <td> </td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td colspan="3"><small>If you already have an account? <a class="ml-2" href="/Login">Sign in</a> instead.</small></td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td class="p" align="right">0.0.0.1</td>
+    </tr>
+    </table>
+</form>
 {% endblock %}
