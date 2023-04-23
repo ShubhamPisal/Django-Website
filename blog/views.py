@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
 # from django.contrib.auth.decorators import login_required
 from blog.forms import NewUserForm 
-from blog.models import Todo
+from blog.models import Todo,Messages
 from django.contrib import messages
 import random
 import string
 
 
 # Create the home page view
-def home(request):  
+def home(request):
     return render(request, 'Home.html')
 
 #Created to generate random string for the cptcha
@@ -28,7 +28,7 @@ def loginUser(request):
         Epassword = request.POST.get('password')
         Captcha = request.POST.get('Captcha')
 
-        password = bytes([eval(i)-10 for i in Epassword.split(",")]).decode("utf8")
+        password = bytes([eval(i)-10 for i in Epassword.split(',')]).decode('utf8')
 
         #print(username,password,Captcha) # used to verify the inpunt provided in the frount end is correct for backend
 
@@ -77,7 +77,7 @@ def signup(request):
 # Create the logedin page view
 def logedin(request):
     if request.user.is_anonymous:
-         return redirect('/Login') 
+        return redirect('/Login') 
     return render(request, 'Logedin.html')
 
 # Create the ToDo page view
@@ -88,7 +88,6 @@ def TodoList (request):
     if request.method=='POST':
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        print(title,desc)
         content=Todo(title=title,desc=desc)
         content.save()
         return redirect('/Todo')
@@ -103,7 +102,7 @@ def Todoupdate(request,sno):
         desc = request.POST.get('desc')
         content=Todo(sno=sno ,title=title ,desc=desc)
         content.save()
-        return redirect("/Todo")
+        return redirect('/Todo')
         
     context = {
         'todo' : Todo.objects.filter(sno=sno).first()
@@ -114,4 +113,22 @@ def Todoupdate(request,sno):
 def Tododelete(request,sno):
     content=Todo.objects.get(sno=sno)
     content.delete()
-    return redirect("/Todo")
+    return redirect('/Todo')
+
+# Create the message sent view
+def message(request):
+    if request.method=='POST':
+        message = request.POST.get('message')
+        content=Messages(message=message)
+        content.save()
+        return redirect('/Chats')
+    return render(request, '404.html')
+
+# Create the Chats record view
+def Chats(request):
+    if request.user.is_anonymous:
+        return redirect('/Login') 
+    context = {
+        'Conversions' : Messages.objects.all() 
+    }
+    return render(request, 'message.html', context)

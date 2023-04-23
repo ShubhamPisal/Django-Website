@@ -13,3 +13,9 @@ class Todo(models.Model):
 
     # def __repr__(self) -> str:
     #     return f"{self.sno} - {self.title}"
+
+# Created your Todo table.
+class Messages(models.Model):
+    sno = models.AutoField(auto_created = True, primary_key=True)
+    message = models.TextField(max_length=255)
+    created_on = models.DateTimeField(default=timezone.now)

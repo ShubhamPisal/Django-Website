@@ -12,9 +12,9 @@ urlpatterns = [
     path('SignUp/', views.signup, name='blog-SignUpPage'),
     path('Logedin', views.logedin, name='blog-LogedinPage'),
     path('Todo', views.TodoList, name='blog-TodoPage'),
-    # path('show', views.products, name='blog-showPage'),
     path('update/<int:sno>', views.Todoupdate, name='blog-TodoupdatePage'),
     path('delete/<int:sno>', views.Tododelete, name='blog-TododeletePage'),
-
+    path('message', views.message, name='blog-messagePage'),
+    path('Chats', views.Chats, name='blog-ChatsPage'),
 
 ]
