@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} Chats{% endblock title %} 
 {% block content %}
-<div class="container my-3" id="header">
+<div class="container" id="header">
   <h2>Chats</h2> 
+</div>
+<div>
   {% if Conversions|length == 0 %}
     <div class="alert alert-dark" role="alert">
         No messages found. start your conversion now!

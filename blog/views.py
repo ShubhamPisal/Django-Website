@@ -31,16 +31,13 @@ def loginUser(request):
         password = bytes([eval(i)-10 for i in Epassword.split(',')]).decode('utf8')
 
         #print(username,password,Captcha) # used to verify the inpunt provided in the frount end is correct for backend
-
         if Captcha == random_string: #Compare generated string with user input
-
         # check if user has entered correct credentials
             user = authenticate(username=username, password=password)
             if user is not None:
                 # A backend authenticated the credentials
                 login(request, user)
-                return redirect('/Logedin')
-
+                return redirect('/Todo')
             else:
                 # No backend authenticated the credentials
                 messages.warning(request, 'Enter Correct Password!')
@@ -74,25 +71,21 @@ def signup(request):
         form = NewUserForm()
     return render (request, 'SignUp.html',{'form' : form})
 
-# Create the logedin page view
-def logedin(request):
-    if request.user.is_anonymous:
-        return redirect('/Login') 
-    return render(request, 'Logedin.html')
-
 # Create the ToDo page view
 def TodoList (request):
-    context = {
-        'tasks' : Todo.objects.all() 
-    }
-    if request.method=='POST':
-        title = request.POST.get('title')
-        desc = request.POST.get('desc')
-        content=Todo(title=title,desc=desc)
-        content.save()
-        return redirect('/Todo')
-        
-    return render(request, 'Todo.html', context)
+    if request.user.is_anonymous:
+        return redirect('/Login')
+    else:
+        context = {
+          'tasks' : Todo.objects.all()
+        }
+        if request.method=='POST':
+            title = request.POST.get('title')
+            desc = request.POST.get('desc')
+            content=Todo(title=title,desc=desc)
+            content.save()
+            return redirect('/Todo')
+        return render(request, 'Todo.html', context)
 
 # Create the ToDoUpdate page view
 def Todoupdate(request,sno):
@@ -132,3 +125,72 @@ def Chats(request):
         'Conversions' : Messages.objects.all() 
     }
     return render(request, 'message.html', context)
+
+def profile(request):
+    return render(request, 'profile.html')
+
+
+#added for post # Not tested or tryed yet
+# from django.shortcuts import render
+# from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+# from django.views.generic import (
+#     ListView,
+#     DetailView,
+#     CreateView,
+#     UpdateView,
+#     DeleteView
+# )
+# from .models import Post
+
+
+# def home(request):
+#     context = {
+#         'posts': Post.objects.all()
+#     }
+#     return render(request, 'blog/home.html', context)
+
+
+# class PostListView(ListView):
+#     model = Post
+#     template_name = 'blog/home.html'  # <app>/<model>_<viewtype>.html
+#     context_object_name = 'posts'
+#     ordering = ['-date_posted']
+
+
+# class PostDetailView(DetailView):
+#     model = Post
+
+
+# class PostCreateView(LoginRequiredMixin, CreateView):
+#     model = Post
+#     fields = ['title', 'content']
+
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+
+
+# class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+#     model = Post
+#     fields = ['title', 'content']
+
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+
+#     def test_func(self):
+#         post = self.get_object()
+#         if self.request.user == post.author:
+#             return True
+#         return False
+
+
+# class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+#     model = Post
+#     success_url = '/'
+
+#     def test_func(self):
+#         post = self.get_object()
+#         if self.request.user == post.author:
+#             return True
+#         return False

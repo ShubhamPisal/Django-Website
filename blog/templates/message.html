@@ -1,9 +1,9 @@
-{% extends 'chats.html' %} 
+{% extends 'chats.html' %}
 {% block message %}
 <div class="container my-3">
   <form action="/message" method="POST">
     {% csrf_token %}
-    <div class="input-group mb-3">
+    <div class="input-group fixed-bottom">
         <input type="text" class="form-control" name="message" id="message" placeholder="Message"  aria-describedby="basic-addon2">
         <button class="btn btn-outline-success btn-sm mx-1">
             <svg width="16" height="16" >

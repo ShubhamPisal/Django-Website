@@ -35,3 +35,12 @@
     border-radius:25px;
     width: 60%;
 }
+.account-img {
+    height: 100px;
+    width: auto;
+    border-radius:50%!important;
+}
+.media-body {
+    -ms-flex:1;flex:1;
+    margin-left: 10% !important;
+}
