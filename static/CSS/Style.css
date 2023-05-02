@@ -21,7 +21,7 @@
     background-color:#b3b3b3;
     color:white;
 }
-.message {
+.message-sender {
     position:relative;
     display:-ms-flexbox;
     display:flex;
@@ -34,13 +34,41 @@
     border:1px solid rgba(0,0,0,.125);
     border-radius:25px;
     width: 60%;
+    margin-left: 50%;
+}
+.message-reciver {
+    position:relative;
+    display:-ms-flexbox;
+    display:flex;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    min-width:0;
+    word-wrap:break-word;
+    background-color:#facfcf;
+    background-clip:border-box;
+    border:1px solid rgba(0,0,0,.125);
+    border-radius:25px;
+    width: 60%;
+    margin-right: 50%;
 }
 .account-img {
     height: 100px;
-    width: auto;
+    width: 100px;
+    border-radius:50%!important;
+}
+.chatmenu-img {
+    height: 50px;
+    width: 50px;
     border-radius:50%!important;
 }
 .media-body {
     -ms-flex:1;flex:1;
     margin-left: 10% !important;
+}
+.chatbox{
+    width:100%;
+    padding-right:15px;
+    padding-left:15px;
+    margin-right:auto;
+    margin-left:auto;
 }

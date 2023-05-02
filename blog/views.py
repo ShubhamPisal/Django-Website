@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
-# from django.contrib.auth.decorators import login_required
-from blog.forms import NewUserForm 
+from django.contrib.auth.decorators import login_required
+from blog.forms import NewUserForm , UserUpdateForm, ProfileUpdateForm
 from blog.models import Todo,Messages
+from django.contrib.auth.models import User
 from django.contrib import messages
 import random
 import string
@@ -72,20 +73,18 @@ def signup(request):
     return render (request, 'SignUp.html',{'form' : form})
 
 # Create the ToDo page view
+@login_required
 def TodoList (request):
-    if request.user.is_anonymous:
-        return redirect('/Login')
-    else:
-        context = {
-          'tasks' : Todo.objects.all()
-        }
-        if request.method=='POST':
-            title = request.POST.get('title')
-            desc = request.POST.get('desc')
-            content=Todo(title=title,desc=desc)
-            content.save()
-            return redirect('/Todo')
-        return render(request, 'Todo.html', context)
+    context = {
+        'tasks' : Todo.objects.all()
+    }
+    if request.method=='POST':
+        title = request.POST.get('title')
+        desc = request.POST.get('desc')
+        content=Todo(title=title,desc=desc)
+        content.save()
+        return redirect('/Todo')
+    return render(request, 'Todo.html', context)
 
 # Create the ToDoUpdate page view
 def Todoupdate(request,sno):
@@ -108,26 +107,60 @@ def Tododelete(request,sno):
     content.delete()
     return redirect('/Todo')
 
-# Create the message sent view
-def message(request):
-    if request.method=='POST':
-        message = request.POST.get('message')
-        content=Messages(message=message)
-        content.save()
-        return redirect('/Chats')
-    return render(request, '404.html')
+# To lode the chat menu options to select with whome we have to chat
+@login_required
+def chatmenu(request):
+    context = {
+        'users' : User.objects.all() 
+    }
+    return render(request, 'chatmenu.html',context)
 
 # Create the Chats record view
+@login_required
 def Chats(request):
-    if request.user.is_anonymous:
-        return redirect('/Login') 
+    sender = request.user
+    recipient = request.GET.get('recipient', None)
+    if recipient is None:
+        return redirect('/chatmenu')
+    
+    recipient = User.objects.get(username=recipient)
+    cmessages = Messages.objects.filter(sender=sender, recipient=recipient) | Messages.objects.filter(sender=recipient, recipient=sender)
     context = {
-        'Conversions' : Messages.objects.all() 
+        'recipient': recipient,
+        'Conversions' : cmessages.order_by('created_on')
     }
-    return render(request, 'message.html', context)
 
+    if request.method=='POST':
+        message = request.POST.get('message') # added to remove the forms 
+        content = Messages(sender=sender, recipient=recipient, message=message)
+        content.save()
+        return redirect('/Chats' + f'?recipient={recipient.username}')
+     
+    messages_to_update = Messages.objects.filter(sender=recipient, recipient=sender, is_read=False)
+    messages_to_update.update(is_read=True)
+    
+    return render(request, 'chats.html', context)
+
+
+#This code is wright to use to update the post request of the page to change the data.
+@login_required
 def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                request.FILES,
+                                instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('/profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
     return render(request, 'profile.html')
+
+
 
 
 #added for post # Not tested or tryed yet

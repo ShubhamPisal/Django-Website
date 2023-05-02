@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Messages{% endblock title %} 
+{% load static %}
+{% block content %}
+
+<div class="container my-3">
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">messages</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr> 
+                <td scope="col">
+                <div class="container">
+                    <div class="media">
+                    <a href="/Chats?recipient={{ user.username }}">
+                        <img class="chatmenu-img" src="{{ user.profile.image.url }}">
+                        <div class="media-body">
+                        <strong>{{ user.username }}</strong></a>
+                        </div>
+                    </div>
+                </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

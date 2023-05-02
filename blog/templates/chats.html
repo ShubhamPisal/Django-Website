@@ -2,24 +2,58 @@
 {% block title %} Chats{% endblock title %} 
 {% block content %}
 <div class="container" id="header">
-  <h2>Chats</h2> 
+  <h2>Chats With {{ recipient.username }}</h2> 
 </div>
-<div>
+<div class="container mb-5"> 
   {% if Conversions|length == 0 %}
     <div class="alert alert-dark" role="alert">
         No messages found. start your conversion now!
     </div> 
   {% else %} 
     {% for message in Conversions %}
-    <div class="message my-1">
-      <div class="card-body">
-        <h5 class="card-title">Post Owner</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{message.created_on}}</h6>
-        <p class="card-text">{{message.message}}</p>
+      {% if  message.sender ==  request.user %}
+      <div class="message-sender my-1">
+        <div class="card-body">
+          {% comment %} <h5 class="card-title">{{ message.sender }}</h5> {% endcomment %}
+          <p class="card-text">{{ message.message }}</p>
+          <h6 class="card-subtitle mb-2 text-muted">{{ message.created_on|date:"G:i" }} 
+            {% if  message.is_read ==  False %} 
+            <svg width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+              <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+              <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+            </svg> 
+            {% else %}  
+            <svg width="16" height="16" fill="blue" class="bi bi-check2-all" viewBox="0 0 16 16">
+              <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+              <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+            </svg> 
+            {% endif %}
+          </h6>
+        </div>
       </div>
-    </div>
+      {% else %} 
+      <div class="message-reciver my-1">
+        <div class="card-body">
+          {% comment %} <h5 class="card-title">{{ message.sender }}</h5> {% endcomment %}
+          <p class="card-text">{{ message.message }}</p>
+          <h6 class="card-subtitle mb-2 text-muted">{{ message.created_on|date:"G:i"  }}</h6>
+        </div>
+      </div>
+      {% endif %}
     {% endfor %}
   {% endif %}
 </div>  
-{% block message %}{% endblock %}     
+<div class="container my-3">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="input-group fixed-bottom">
+        <input type="text" class="form-control" name="message" id="message" placeholder="Message"  aria-describedby="basic-addon2">
+        <button class="btn btn-outline-success btn-sm mx-1">
+            <svg width="16" height="16" >
+                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+            </svg>
+        </button>
+    </div>
+  </form>
+</div>   
 {% endblock content %}

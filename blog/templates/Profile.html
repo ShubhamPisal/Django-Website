@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block title %}Profile{% endblock title %}
 {% block content %}
 <div class="container">
@@ -12,18 +11,44 @@
     </div>
   </div>
 </div>
-</div>
-{% comment %} This form is added to update the profile info {% endcomment %}
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Profile Info</legend>
-      {{ u_form|crispy }}
-      {{ p_form|crispy }}
-    </fieldset>
-    <div class="form-group">
-      <button class="btn btn-outline-info" type="submit">Update</button>
+<div class="container">
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <fieldset class="form-group">
+    <legend class="border-bottom mb-4">Profile Info</legend>
+    <div id="div_id_username" class="form-group">
+      <label for="id_username" class=" requiredField">Username<span class="asteriskField">*</span> </label> 
+      <div>
+        <input type="text" name="username" value="{{ user.username }}" maxlength="150" class="textinput textInput form-control" required="" id="id_username">
+      </div>
+    </div> 
+    <div id="div_id_email" class="form-group"> 
+      <label for="id_email" class=" requiredField">Email<span class="asteriskField">*</span> </label>
+      <div>
+        <input type="email" name="email" value="{{ user.email }}" class="emailinput form-control" required="" id="id_email">
+      </div>
     </div>
-  </form>
+    <div id="div_id_image" class="form-group"> 
+      <label for="id_image" class=" requiredField">Image<span class="asteriskField">*</span> </label> 
+      <div>Currently: <a href="{{ user.profile.image.url }}">view</a><br>Change:
+        <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file" id="id_image">
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group">
+    <button class="btn btn-outline-info" type="submit">Update</button>
+  </div>
+</form>
+  <div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Update Profile
+    </a>
+  
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>
 </div>
 {% endblock content %}
