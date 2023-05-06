@@ -38,7 +38,7 @@ def loginUser(request):
             if user is not None:
                 # A backend authenticated the credentials
                 login(request, user)
-                return redirect('/Todo')
+                return redirect('blog-TodoPage')
             else:
                 # No backend authenticated the credentials
                 messages.warning(request, 'Enter Correct Password!')
@@ -62,54 +62,64 @@ def forgetpassword(request):
 # Create the signup page view
 def signup(request):
     if request.method == 'POST':
+        # inherets the form from thr django forms & need to validate form
         form = NewUserForm(request.POST)
+        # validateds the form
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created successfully for {username}!' )
             return redirect('blog-homePage')
     else:
+        # need to pass the fileds of the form to show that fiels to html page.
         form = NewUserForm()
     return render (request, 'SignUp.html',{'form' : form})
 
 # Create the ToDo page view
 @login_required
 def TodoList (request):
+    # takes the user who is requested the page to ensure if the user fills the new task then fill the name of the requester
+    created_by = request.user
     context = {
         'tasks' : Todo.objects.all()
     }
+    # fillts the form after post request
     if request.method=='POST':
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        content=Todo(title=title,desc=desc)
+        content=Todo(title=title,desc=desc,created_by=created_by)
         content.save()
-        return redirect('/Todo')
+        return redirect('blog-TodoPage')
     return render(request, 'Todo.html', context)
 
 # Create the ToDoUpdate page view
 def Todoupdate(request,sno):
+    # takes the user who is requested the page to ensure if the user fills the new task then fill the name of the Updator of the form
+
+    Updated_by = request.user
     
     if request.method=='POST':
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        content=Todo(sno=sno ,title=title ,desc=desc)
-        content.save()
-        return redirect('/Todo')
+        # updates the form with specified field with condition
+        Todo.objects.filter(sno=sno).update(title=title ,desc=desc, Updated_by=Updated_by)
+        return redirect('blog-TodoPage')
         
     context = {
         'todo' : Todo.objects.filter(sno=sno).first()
     }
-    return render(request,'update.html', context)
+    return render(request,'Todoupdate.html', context)
 
 # Create the ToDo Delete record view
 def Tododelete(request,sno):
     content=Todo.objects.get(sno=sno)
     content.delete()
-    return redirect('/Todo')
+    return redirect('blog-TodoPage')
 
 # To lode the chat menu options to select with whome we have to chat
 @login_required
 def chatmenu(request):
+    # Provide all the user present in the menu need to update this to only fetch the contacts of the person.
     context = {
         'users' : User.objects.all() 
     }
@@ -118,12 +128,16 @@ def chatmenu(request):
 # Create the Chats record view
 @login_required
 def Chats(request):
+    # fetch the page requester as sender
     sender = request.user
+    # fetch the sender from the user selection 
     recipient = request.GET.get('recipient', None)
     if recipient is None:
-        return redirect('/chatmenu')
+        return redirect('blog-chatmenuPage')
     
+    # chekes the recipient in the our record 
     recipient = User.objects.get(username=recipient)
+    # fetch the messages between the sender & recipient
     cmessages = Messages.objects.filter(sender=sender, recipient=recipient) | Messages.objects.filter(sender=recipient, recipient=sender)
     context = {
         'recipient': recipient,
@@ -131,11 +145,13 @@ def Chats(request):
     }
 
     if request.method=='POST':
-        message = request.POST.get('message') # added to remove the forms 
+        message = request.POST.get('message') 
         content = Messages(sender=sender, recipient=recipient, message=message)
         content.save()
+        # redirect to the same chat box opton
         return redirect('/Chats' + f'?recipient={recipient.username}')
-     
+    
+    # update the is read flag once the page is load by the reciver hence sender can find the mesage is seen or not.
     messages_to_update = Messages.objects.filter(sender=recipient, recipient=sender, is_read=False)
     messages_to_update.update(is_read=True)
     
@@ -146,15 +162,15 @@ def Chats(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
+        # lodes the user profile information update form 
         u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST,
-                                request.FILES,
-                                instance=request.user.profile)
+        # lodes the user profile pitcher update form
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated!')
-            return redirect('/profile')
+            return redirect('blog-profilePage')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)

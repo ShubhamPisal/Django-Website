@@ -10,6 +10,8 @@ class Todo(models.Model):
     sno = models.AutoField(auto_created = True, primary_key=True)
     title = models.TextField(max_length=255)
     desc = models.TextField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True, related_name='Task_Creator')
+    Updated_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True, related_name='Task_Updator')
     created_on = models.DateTimeField(default=timezone.now)
 
     def __repr__(self):

@@ -1,10 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Chats{% endblock title %} 
 {% block content %}
-<div class="container" id="header">
-  <h2>Chats With {{ recipient.username }}</h2> 
+<div class="chathederdiv">
+  {% comment %} <a href="javascript:history.back()"><img class="chatmenu-img" src="{% static 'images/backicon.svg' %}" alt="Back button"></a>   {% endcomment %}
+  <a href="javascript:history.back()"><svg width="50px" height="50px" fill="white" class="bi bi-arrow-left" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+  </svg></a>  
+  <img class="chatmenu-img" src="{{ recipient.profile.image.url }}" alt="profile">
+  <h2 class="chatheder"> Chats With {{ recipient.username }} </h2>  
 </div>
-<div class="container mb-5"> 
+<script>
+  function adjustMessageWidth() {
+    const messages = document.querySelectorAll('.message');
+    messages.forEach(message => {
+      const content = message.querySelector('.message-content');
+      const width = content.offsetWidth;
+      message.style.width = `${width + 20}px`;
+    });
+  }
+  window.addEventListener('resize', adjustMessageWidth);
+  window.addEventListener('load', adjustMessageWidth);
+</script>
+<div class="chat mb-5"> 
   {% if Conversions|length == 0 %}
     <div class="alert alert-dark" role="alert">
         No messages found. start your conversion now!
@@ -12,11 +30,9 @@
   {% else %} 
     {% for message in Conversions %}
       {% if  message.sender ==  request.user %}
-      <div class="message-sender my-1">
-        <div class="card-body">
-          {% comment %} <h5 class="card-title">{{ message.sender }}</h5> {% endcomment %}
-          <p class="card-text">{{ message.message }}</p>
-          <h6 class="card-subtitle mb-2 text-muted">{{ message.created_on|date:"G:i" }} 
+      <div class="message">
+          <div class="message-sender">{{ message.message }}
+          <h6 class="message-time mb-2 text-muted">{{ message.created_on|date:"G:i" }} 
             {% if  message.is_read ==  False %} 
             <svg width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
               <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
@@ -28,16 +44,11 @@
               <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
             </svg> 
             {% endif %}
-          </h6>
-        </div>
+          </h6></div>
       </div>
       {% else %} 
-      <div class="message-reciver my-1">
-        <div class="card-body">
-          {% comment %} <h5 class="card-title">{{ message.sender }}</h5> {% endcomment %}
-          <p class="card-text">{{ message.message }}</p>
-          <h6 class="card-subtitle mb-2 text-muted">{{ message.created_on|date:"G:i"  }}</h6>
-        </div>
+      <div class="message">
+          <div class="message-reciver">{{ message.message }}<h6 class="message-time mb-2 text-muted">{{ message.created_on|date:"G:i"  }}</h6></div>
       </div>
       {% endif %}
     {% endfor %}

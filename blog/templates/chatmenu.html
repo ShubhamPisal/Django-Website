@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<div class="container my-3">
+<div class="my-3">
     <table class="table">
         <thead>
             <tr>
@@ -14,7 +14,7 @@
             {% for user in users %}
             <tr> 
                 <td scope="col">
-                <div class="container">
+                <div>
                     <div class="media">
                     <a href="/Chats?recipient={{ user.username }}">
                         <img class="chatmenu-img" src="{{ user.profile.image.url }}">

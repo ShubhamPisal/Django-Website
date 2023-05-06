@@ -6,6 +6,10 @@
   <h2>Update Todo</h2>
   <form action="/update/{{todo.sno}}" method="POST">
     {% csrf_token %}
+      {% comment %} <div class="mb-3">
+        <label for="country">Created By</label>  
+        <input type="text" class="form-control" name="created_by" id="created_by" value="{{todo.created_by}}" readonly><br>
+      </div> {% endcomment %}
       <div class="mb-3">
         <label for="title" class="form-label">Todo Title</label>
         <input type="text" class="form-control" name="title" id="title" value="{{todo.title}}" aria-describedby="emailHelp"> 

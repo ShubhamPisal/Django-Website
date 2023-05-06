@@ -1,5 +1,5 @@
-#BG {
-    background-color: #2d3748;
+body {
+    background-color: #f0f0f0;
 }
 .imp{
     color:red;
@@ -21,36 +21,6 @@
     background-color:#b3b3b3;
     color:white;
 }
-.message-sender {
-    position:relative;
-    display:-ms-flexbox;
-    display:flex;
-    -ms-flex-direction:column;
-    flex-direction:column;
-    min-width:0;
-    word-wrap:break-word;
-    background-color:#ccffcc;
-    background-clip:border-box;
-    border:1px solid rgba(0,0,0,.125);
-    border-radius:25px;
-    width: 60%;
-    margin-left: 50%;
-}
-.message-reciver {
-    position:relative;
-    display:-ms-flexbox;
-    display:flex;
-    -ms-flex-direction:column;
-    flex-direction:column;
-    min-width:0;
-    word-wrap:break-word;
-    background-color:#facfcf;
-    background-clip:border-box;
-    border:1px solid rgba(0,0,0,.125);
-    border-radius:25px;
-    width: 60%;
-    margin-right: 50%;
-}
 .account-img {
     height: 100px;
     width: 100px;
@@ -60,10 +30,14 @@
     height: 50px;
     width: 50px;
     border-radius:50%!important;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+
 }
 .media-body {
     -ms-flex:1;flex:1;
-    margin-left: 10% !important;
+    margin-left: 5% !important;
 }
 .chatbox{
     width:100%;
@@ -72,3 +46,53 @@
     margin-right:auto;
     margin-left:auto;
 }
+.chatheder{
+    text-align: center;
+}
+.chathederdiv{
+    display:flex;
+    color: white;
+    align-items: center;
+    background-color:#075e54;
+    height: 60px;
+    padding: 10px;
+    box-shadow: 0px 2px 4px rgb(0,0,0,0.1);
+}
+.message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .message-reciver {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #facfcf;
+    margin-right: auto;
+    word-wrap: break-word;
+    border: 1px solid rgba(0, 0, 0, .125);
+  }
+  .message-sender {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #ccffcc;
+    margin-left: auto;
+    word-wrap: break-word;
+    border: 1px solid rgba(0, 0, 0, .125);
+  }
+  .message-time {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+  }
+  .message-text {
+    margin-bottom:0;
+    font-size: 16px;
+  }
+  .chat {
+    max-width: 100%;
+    margin: 10px;
+  }
